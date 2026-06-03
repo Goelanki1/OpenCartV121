@@ -1,0 +1,33 @@
+<suite name="Suite" thread-count="5" parallel ="tests">
+	
+  <test name="FirefoxTest">
+	
+	<parameter name="browser" value = "edge"/>
+
+    <classes>
+      <class name="TestCases.TC001_AccountRegistration"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  
+   <test name="ChromeTest">
+	
+	<parameter name="browser" value = "edge"/>
+
+    <classes>
+      <class name="TestCases.TC001_AccountRegistration"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  
+   <test name="EdgeTest">
+	
+	<parameter name="browser" value = "edge"/>
+
+    <classes>
+      <class name="TestCases.TC001_AccountRegistration"/>
+    </classes>
+  </test> <!-- Test -->
+  
+  
+</suite> <!-- Suite -->

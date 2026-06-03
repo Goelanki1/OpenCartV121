@@ -1,0 +1,33 @@
+<suite name="Suite">
+	
+	<listeners>
+		
+		<listener class-name = "Utilities.ExtentReport"  />
+		
+		</listeners>
+	
+	<groups>
+		<run>
+			<include
+				name= "sanity" />
+				  
+				<include
+				name= "Regression" />
+				
+					<include
+				name= "Master" />
+		</run>
+	</groups>
+  <test thread-count= "5"  name="Test1">
+	
+	<parameter name="os" value = "Windows"/>
+<parameter name="browser" value = "Chrome"/>
+    <classes>
+      <class name="TestCases.TC001_AccountRegistration"/>
+      <class name="TestCases.TC002_MyAccountLogin"/>
+
+      
+       
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
