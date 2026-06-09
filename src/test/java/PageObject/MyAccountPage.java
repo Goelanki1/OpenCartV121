@@ -25,7 +25,7 @@ public class MyAccountPage extends BasePage{
 		btn_MyAccountLogout.click();
 	}
 	
-	public boolean MyAccountexists()
+		public boolean MyAccountexists()
 
 	{
 		try

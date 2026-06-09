@@ -1,0 +1,8 @@
+target/
+test-output/
+reports/
+logs/
+.classpath
+.project
+.settings/
+Screenshots/

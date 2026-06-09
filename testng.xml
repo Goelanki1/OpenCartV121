@@ -23,8 +23,8 @@
 	<parameter name="os" value = "Windows"/>
 <parameter name="browser" value = "Chrome"/>
     <classes>
-      <class name="TestCases.TC001_AccountRegistration"/>
-      <class name="TestCases.TC002_MyAccountLogin"/>
+      <class name="TestCases.TC004_ForgottenPassword"/>
+    
 
       
        

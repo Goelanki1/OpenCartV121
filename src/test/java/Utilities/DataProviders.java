@@ -29,15 +29,23 @@ public class DataProviders
 	return loginData;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@DataProvider(name="ForgotPasswordData")
+	public Object[][] getData_forgotpassword() throws IOException
+	{
+	    String path = ".\\TestData\\OpenCard_LoginData.xlsx";
+
+	    ExcelUtility xlutil = new ExcelUtility(path);
+
+	    int rows = xlutil.getRowCount("Sheet2");
+
+	    Object data[][] = new Object[rows][2];
+
+	    for(int r=1; r<=rows; r++)
+	    {
+	        data[r-1][0] = r; // row number
+	        data[r-1][1] = xlutil.getCellData("Sheet2", r, 0);
+	    }
+
+	    return data;
+	}
 }
