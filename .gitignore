@@ -1,8 +1,9 @@
 target/
-test-output/
 reports/
+test-output/
 logs/
+Screenshots/
+
 .classpath
 .project
 .settings/
-Screenshots/
