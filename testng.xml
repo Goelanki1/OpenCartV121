@@ -21,9 +21,10 @@
   <test thread-count= "5"  name="Test1">
 	
 	<parameter name="os" value = "Windows"/>
-<parameter name="browser" value = "Chrome"/>
+<parameter name="browser" value = "FireFox"/>
+<parameter name="env"     value="local"/>	
     <classes>
-      <class name="TestCases.TC004_ForgottenPassword"/>
+      <class name="TestCases.TC001_AccountRegistration"/>
     
 
       

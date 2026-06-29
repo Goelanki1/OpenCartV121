@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import PageObject.AccountRegistrationPage;
 import PageObject.Homepage;
 import TestBase.BaseClass;
+import TestBase.DriverManager;
 
 public class TC001_AccountRegistration extends BaseClass
 {
@@ -14,7 +15,7 @@ public class TC001_AccountRegistration extends BaseClass
 	public void Verify_AccountRegistration()
 	{
 		logger.info("****************Account Registration Started***********************");
-		Homepage hp = new Homepage(driver);
+		Homepage hp = new Homepage(DriverManager.getDriver());
 		
 		logger.info("Click on My Account");
 		hp.clickMyAccount();
@@ -24,7 +25,7 @@ public class TC001_AccountRegistration extends BaseClass
 		
 		logger.info("Enter All Details");
 		
-		AccountRegistrationPage accpage = new AccountRegistrationPage(driver);
+		AccountRegistrationPage accpage = new AccountRegistrationPage(DriverManager.getDriver());
 		accpage.Firstname(RandomAlpha());
 		accpage.Lastname(RandomAlpha());
 		accpage.Email(RandomAlpha()+"@gmail.com");

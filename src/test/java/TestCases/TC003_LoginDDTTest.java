@@ -7,6 +7,7 @@ import PageObject.Homepage;
 import PageObject.LoginPage;
 import PageObject.MyAccountPage;
 import TestBase.BaseClass;
+import TestBase.DriverManager;
 import Utilities.DataProviders;
 
 public class TC003_LoginDDTTest extends BaseClass
@@ -21,21 +22,21 @@ public class TC003_LoginDDTTest extends BaseClass
 		try
 		{
 		logger.info("==============Testcase TC003_LoginDDT is started=========================");
-		Homepage hp = new Homepage(driver);
+		Homepage hp = new Homepage(DriverManager.getDriver());
 		
 		hp.clickMyAccount();
 		hp.ClickLogin();
 		
 		//Enter email and password details on my accountpage
 		
-		LoginPage lg = new LoginPage(driver);
+		LoginPage lg = new LoginPage(DriverManager.getDriver());
 		
 		lg.SetLoginEmailid(email);
 		lg.SetLoginPassword(password);
 		lg.click_login();
 
 		//Verify account on myaccount page and click on logout too
-		MyAccountPage maccpage = new MyAccountPage(driver);
+		MyAccountPage maccpage = new MyAccountPage(DriverManager.getDriver());
 	boolean Targetpage = maccpage.MyAccountexists();
 		
 	if(Res.equalsIgnoreCase("Valid"))

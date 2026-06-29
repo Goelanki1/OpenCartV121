@@ -26,166 +26,78 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
-public class BaseClass 
-{
- public static WebDriver driver;
-protected Properties p;
-public static Logger logger;
+public class BaseClass {
+	// ✅ NO static WebDriver here anymore
+	protected Properties p;
+	public static Logger logger;
 
-	@BeforeClass(groups={"Sanity","datadriven","Master","Regression"})
-	@Parameters({"os", "browser"})
-	public void setup(String os, String browser) throws IOException
-	{
-		
-		//loadconfig file
-	FileReader file = new FileReader("./src//test//resources//config.properties");
-	p = new Properties();
-	p.load(file);
-	
-		logger =  LogManager.getLogger(this.getClass());
-		
-		if(p.getProperty("execution_env").equalsIgnoreCase("remote"))
-		{
-			DesiredCapabilities cap = new DesiredCapabilities();
-			
-			if(os.equalsIgnoreCase("windows"))
-			{
-				cap.setPlatform(Platform.WIN11);
-			}
-			else if(os.equalsIgnoreCase("Mac"))
-			{
-				cap.setPlatform(Platform.MAC);
-				
-			}
-			else
-			{
-				System.out.println("no os avaialble");
-				return;
-			}
-				
-				
-			switch(browser.toLowerCase())
-			{
-			case "chrome":
-				cap.setBrowserName("chrome");
-				break;
-			case "firefox": 
-				cap.setBrowserName("firefox");
-				break;
-			case "safari":
-				cap.setBrowserName("safari");
-				break;
-			case "edge":
-				cap.setBrowserName("edge");
-	         break;
-	         default : System.out.println("default browser name.....");
-	         
-	         return;
-				}
-			driver= new RemoteWebDriver(new URL("http://localhost:4444/"), cap);
-			
-		}
-		
-		if(p.getProperty("execution_env").equalsIgnoreCase("local"))
-		{
-		switch(browser.toLowerCase())
-		{
-		case "chrome":
-			driver = new ChromeDriver();
-			break;
-		case "firefox": 
-			driver = new FirefoxDriver();
-			break;
-		case "safari":
-			driver = new SafariDriver();
-			break;
-		case "edge":
-			driver = new EdgeDriver();
-         break;
-         default : System.out.println("default browser name.....");
-         return;
-			}
-		}
-		
-		driver.get(p.getProperty("appurl")); //reading url from config properties file
-		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
-		driver.manage().window().maximize();
+	@BeforeClass(groups = { "Sanity", "datadriven", "Master", "Regression" })
+	@Parameters({ "os", "browser" })
+	public void setup(String os, String browser) throws Exception {
+
+		// ✅ STEP 1 — Load config.properties FIRST (p must not be null)
+		FileReader file = new FileReader("./src//test//resources//config.properties");
+		p = new Properties();
+		p.load(file);
+// STEP 2 — Logger
+		logger = LogManager.getLogger(this.getClass());
+
+		// ✅ STEP 3 — Now safe to read from p
+		String env = p.getProperty("execution_env");
+
+		// ✅ STEP 4 — Create driver via Factory
+		WebDriver driver = DriverFactory.createDriver(browser, os, env);
+
+		// ✅ STEP 5 — Store in ThreadLocal
+		DriverManager.setDriver(driver);
+		// ✅ STEP 6 — Browser configuration
+		DriverManager.getDriver().get(p.getProperty("appurl").trim()); // reading url from config properties file
+		DriverManager.getDriver().manage().deleteAllCookies();
+		DriverManager.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(4));
+		DriverManager.getDriver().manage().window().maximize();
 	}
 
-	@AfterClass (groups={"Sanity","datadriven","Master","Regression"})
+	@AfterClass(groups = { "Sanity", "datadriven", "Master", "Regression"})
 	public void teardown() {
-		driver.quit();
+
+		// ✅ Use DriverManager — not bare 'driver'
+		if (DriverManager.getDriver() != null) {
+			DriverManager.getDriver().quit();
+			DriverManager.removeDriver(); // ✅ prevent memory leak
+		}
+
 	}
-	
-	public String RandomAlpha()
-	{
+
+	public String RandomAlpha() {
 		String randomAlpha = RandomStringUtils.insecure().nextAlphabetic(6);
 		return randomAlpha;
 	}
-	
-	
-	public String RandomNumeric()
-	{
+
+	public String RandomNumeric() {
 		String randomNum = RandomStringUtils.insecure().nextNumeric(10);
 		return randomNum;
 	}
-	
-	public String RandomAlphanum()
-	{
+
+	public String RandomAlphanum() {
 		String randomAlpha = RandomStringUtils.insecure().nextAlphabetic(6);
 		String randomNum = RandomStringUtils.insecure().nextNumeric(10);
-		return randomAlpha+"@"+randomNum;
-		
+		return randomAlpha + "@" + randomNum;
+
 	}
-	
-	public String captureScreen(String tname) throws IOException
-	{
-	    String timeStamp = new SimpleDateFormat("yyyyMMddhhmmss")
-	            .format(new Date(0));
 
-	    TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
-	    File sourceFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
+	public String captureScreen(String tname) throws IOException {
+		String timeStamp = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date(0));
 
-	    String targetFilePath = System.getProperty("user.dir")
-	            + "\\screenshots\\"
-	            + tname + "_" + timeStamp + ".png";
+		TakesScreenshot takesScreenshot = (TakesScreenshot) DriverManager.getDriver();
+		File sourceFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
 
-	    File targetFile = new File(targetFilePath);
+		String targetFilePath = System.getProperty("user.dir") + "\\screenshots\\" + tname + "_" + timeStamp + ".png";
 
-	    sourceFile.renameTo(targetFile);
+		File targetFile = new File(targetFilePath);
 
-	    return targetFilePath;
+		sourceFile.renameTo(targetFile);
+
+		return targetFilePath;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

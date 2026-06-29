@@ -6,6 +6,7 @@ import PageObject.Account_ForgottenPassword;
 import PageObject.Homepage;
 import PageObject.LoginPage;
 import TestBase.BaseClass;
+import TestBase.DriverManager;
 import Utilities.DataProviders;
 import Utilities.ExcelUtility;
 
@@ -22,14 +23,14 @@ public class TC004_ForgottenPassword extends BaseClass
 		{
 		 logger.info("******** TC004 Forgot Password Started ********");
 
-		    Homepage hp = new Homepage(driver);
+		    Homepage hp = new Homepage(DriverManager.getDriver());
 		    hp.clickMyAccount();
 		    hp.ClickLogin();
 
-		    LoginPage lp = new LoginPage(driver);
+		    LoginPage lp = new LoginPage(DriverManager.getDriver());
 		    lp.ForgottenPassowrd();
 
-		    Account_ForgottenPassword fp = new Account_ForgottenPassword(driver);
+		    Account_ForgottenPassword fp = new Account_ForgottenPassword(DriverManager.getDriver());
 		    fp.EnterEmail(email);
 		    fp.ContinueClick();
 		    String path = System.getProperty("user.dir")

@@ -1,5 +1,6 @@
 package Utilities;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -65,7 +66,7 @@ public class ExcelUtility
         return cellcount;
     }
 
-    // Get Cell Data
+    // Get Cell Data (read cell data)
     public String getCellData(String sheetName, int rownum, int column)
             throws IOException {
 
@@ -92,7 +93,7 @@ public class ExcelUtility
         return data;
     }
 
-    // Set Cell Data
+    // Set Cell Data (write in cell)
     public void setCellData(String sheetName, int rownum,
             int column, String data) throws IOException {
 
